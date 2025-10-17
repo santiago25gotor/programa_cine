@@ -6,8 +6,8 @@
       "duracion": 120,
       "genero": "Ciencia Ficción",
       "salas": [
-        { "salaId": 1, "horario": "18:00" },
-        { "salaId": 2, "horario": "20:30" }
+        { "salaId": 1, "horario": "18:00" ,"precio": 9.50},
+        { "salaId": 2, "horario": "20:30", "precio": 9.50 }
       ]
     },
     {
@@ -16,7 +16,7 @@
       "duracion": 140,
       "genero": "Acción",
       "salas": [
-        { "salaId": 1, "horario": "21:00" }
+        { "salaId": 1, "horario": "21:00" ,"precio": 9.50}
       ]
     },
     {
@@ -25,9 +25,9 @@
       "duracion": 160,
       "genero": "Aventura",
       "salas": [
-        { "salaId": 1, "horario": "14:00" },
-        { "salaId": 2, "horario": "17:00" },
-        { "salaId": 4, "horario": "21:00" }
+        { "salaId": 1, "horario": "14:00" ,"precio": 9.50},
+        { "salaId": 2, "horario": "17:00" ,"precio": 9.50},
+        { "salaId": 4, "horario": "21:00","precio": 9.50 }
       ]
     }
   ],
