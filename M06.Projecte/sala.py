@@ -21,18 +21,49 @@ def buscar_sala_por_id(salas: List[dict], sala_id: int) -> Optional[dict]:
             return sala
     return None
 
-def seleccionar_sala(pelicula: dict) -> Optional[dict]:
-    """Muestra las salas disponibles para la película y permite seleccionar una."""
+
+def sala_tiene_asientos_disponibles(sala: dict) -> bool:
+    for fila in sala['asientos']:
+        for asiento in fila:
+            if asiento == 0:
+                return True
+    return False
+
+
+def contar_asientos_disponibles(sala: dict) -> int:
+    contador = 0
+    for fila in sala['asientos']:
+        for asiento in fila:
+            if asiento == 0:
+                contador += 1
+    return contador
+
+
+def seleccionar_sala(pelicula: dict, todas_las_salas: List[dict]) -> Optional[dict]:
     while True:
         print(f"\n🏢 Salas disponibles para '{pelicula['titulo']}':")
         print("="*50)
         
-        for i, sala in enumerate(pelicula['salas'], 1):
-            print(f"{i}. Sala {sala['salaId']} - Horario: {sala['horario']} - Precio: ${sala['precio']}")
+        salas_con_disponibilidad = []
+
+        for i, sala_info in enumerate(pelicula['salas'], 1):
+            sala_completa = buscar_sala_por_id(todas_las_salas, sala_info['salaId'])
+
+        if sala_completa and sala_tiene_asientos_disponibles(sala_completa):
+                asientos_libres = contar_asientos_disponibles(sala_completa)
+                print(f"{i}. Sala {sala_info['salaId']} - Horario: {sala_info['horario']} - Precio: ${sala_info['precio']} - ({asientos_libres} asientos libres) ✅")
+                salas_con_disponibilidad.append((i, sala_info))
+            else:
+                print(f"{i}. Sala {sala_info['salaId']} - Horario: {sala_info['horario']} - COMPLETA ❌")
+
             
         print("\n0. Volver atrás")
         print("="*50)
-        
+
+        if not salas_con_disponibilidad:
+            print("\n⚠️ Lo sentimos, todas las salas están completas para esta película.")
+            input("Presiona ENTER para continuar...")
+            return None
         try:
             opcion = int(input("\n➤ Selecciona una sala (número): ").strip())
             
@@ -40,16 +71,26 @@ def seleccionar_sala(pelicula: dict) -> Optional[dict]:
                 print("🔙 Volviendo...")
                 return None
         
-            if 1 <= opcion <= len(pelicula['salas']):
-                sala_seleccionada = pelicula['salas'][opcion - 1]
-                print(f"\n✅ Sala seleccionada: Sala {sala_seleccionada['salaId']} - {sala_seleccionada['horario']}")
-                return sala_seleccionada
-            else:
-                print(f"❌ Opción inválida. Elige entre 0 y {len(pelicula['salas'])}")
-        
-        except ValueError:
-            print("❌ Por favor, ingresa un número válido.")
+       
+            sala_valida = None
+            for idx, sala_info in salas_con_disponibilidad:
+                if idx == opcion:
+                    sala_valida = sala_info
+                    break
 
+            if sala_valida:
+                print(f"\n✅ Sala seleccionada: Sala {sala_valida['salaId']} - {sala_valida['horario']}")
+                return sala_valida
+            else:
+                print(f"❌ Opción inválida o sala completa. Elige una sala con asientos disponibles.")
+                input("Presiona ENTER para continuar...")
+        
+             except ValueError:
+                print("❌ Por favor, ingresa un número válido.")
+                input("Presiona ENTER para continuar...")
+
+
+        //me he quedado por aqui
 def asiento_mas_centrado(asientos):
     """Devuelve el asiento libre más centrado de la matriz (fila, columna)."""
     if not asientos or not asientos[0]:
@@ -169,3 +210,4 @@ def seleccionar_asiento(sala: dict) -> Optional[Tuple[int, int]]:
 def codigo_asiento(fila, columna):
     filas_letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     return f"{filas_letras[fila]}{columna + 1}"
+
