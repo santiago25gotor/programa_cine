@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
+import json
+import random
+import string
 
 @dataclass
 class Sala:
@@ -269,9 +272,9 @@ def marcar_asientos_ocupados(sala: dict, asientos: List[Tuple[int, int]]) -> boo
         for fila, columna in asientos:
             if sala['asientos'][fila][columna] == 0:
                 sala['asientos'][fila][columna] = 1
+                return True
             else:
                 return False
-        return True
     except (IndexError, KeyError):
         return False
 
@@ -298,4 +301,26 @@ def marcar_asiento_ocupado(sala: dict, fila: int, columna: int) -> bool:
             return True
         return False
     except (IndexError, KeyError):
+        return False
+    
+    #22/10/25 - Función corregida para guardar solo salas y mantener el resto del JSON intacto
+def guardar_salas_json(salas: List[dict], archivo="dbFilms.json") -> bool:
+
+    try:
+        # Leer el archivo JSON completo
+        with open(archivo, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # Actualizar solo la sección de salas
+        data['salas'] = salas
+
+        # Guardar el archivo JSON actualizado
+        with open(archivo, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+       # print(f"✅ Estado de salas guardado en {archivo}")
+        return True
+
+    except Exception as e:
+        # print(f"❌ Error al guardar salas en JSON: {e}")
         return False

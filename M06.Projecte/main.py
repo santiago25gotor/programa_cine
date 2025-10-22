@@ -1,9 +1,12 @@
 import json
 import os
 
-# Suponemos que estas funciones están definidas en el mismo archivo o correctamente importadas
 from pelicula import seleccionar_pelicula
-from sala import buscar_sala_por_id, seleccionar_sala, pedir_cantidad_asientos, seleccionar_multiples_asientos
+from sala import ( buscar_sala_por_id, seleccionar_sala, 
+                  pedir_cantidad_asientos, seleccionar_multiples_asientos,
+                  marcar_asientos_ocupados, asientos_a_codigo ,guardar_salas_json)
+from reserva import crear_reserva, guardar_reserva_json, proceso_buscar_reserva
+from ticket import crear_ticket, guardar_ticket_json, guardar_ticket_csv, mostrar_ticket
 from descuento import mostrar_descuentos, aplicar_descuento
 
 # ↓↓↓ Cargar datos desde JSON como diccionarios ↓↓↓
@@ -40,13 +43,20 @@ def proceso_reserva(dbFilms):
         return
 
     # 4. pedir asientos selecionados
-    cantidad_asiento = pedir_cantidad_asientos(sala_completa)
-    if cantidad_asiento is None:
+    cantidad_asientos = pedir_cantidad_asientos(sala_completa)
+    if cantidad_asientos is None:
         return
 
-    seleccionar_multiples_asientos(sala_completa, cantidad_asiento)
+ # 5. Seleccionar los asientos (uno por cada persona)
+    asientos_seleccionados = seleccionar_multiples_asientos(sala_completa, cantidad_asientos)
+    if not asientos_seleccionados:
+        return
+    
+    # Convertir asientos a códigos legibles (A1, A2, B3, etc.)
+    codigos_asientos = asientos_a_codigo(asientos_seleccionados)
+    
 
-    # 5. Aplicar descuento si se desea
+    # 6. Aplicar descuento si se desea
     aplicar = input("\n¿Deseas aplicar un descuento? (s/n): ").strip().lower()
     if aplicar == 's':
         descuento_aplicado, precio_final = aplicar_descuento(dbFilms['descuentos'], sala_info['precio'])
@@ -59,6 +69,9 @@ def proceso_reserva(dbFilms):
         precio_final = sala_info['precio']
         descuento_aplicado = None
 
+    # Calcular precio total
+    precio_total = precio_final * cantidad_asientos
+
     # 6. Mostrar resumen
     print("\n" + "=" * 50)
     print("📋 RESUMEN DE TU RESERVA".center(50))
@@ -66,17 +79,82 @@ def proceso_reserva(dbFilms):
     print(f"🎬 Película: {pelicula_seleccionada['titulo']}")
     print(f"🏢 Sala: {sala_completa['nombre']}")
     print(f"🕒 Horario: {sala_info['horario']}")
-    #print(f"💺 Asiento: {asiento_codigo}")
-    print(f"💰 Precio: ${precio_final:.2f}")
+    print("-"*60)
+    print(f"👥 Personas:        {cantidad_asientos}")
+    print("-"*60)
+    print(f"💰 Precio/persona:  ${precio_final}")
+    print(f"💵 TOTAL A PAGAR:   ${precio_total:.2f}")
     print("=" * 50)
 
     confirmacion = input("\n¿Confirmar reserva? (s/n): ").strip().lower()
     if confirmacion == 's':
-        print("\n✅ ¡Reserva confirmada! Disfruta tu película 🎉")
+        # 22/10/2025 - Pedir nombre del usuario
+        nombre_usuario = input("\n👤 Por favor, ingresa tu nombre: ").strip()
+        if not nombre_usuario:
+            nombre_usuario = "Usuario"
+        
+        if marcar_asientos_ocupados(sala_completa, asientos_seleccionados):
+            
+            # 22/10/2025 - CREAR Y GUARDAR LA RESERVA
+            reserva = crear_reserva(
+                idUser=nombre_usuario,
+                sala=sala_info['salaId'],
+                asientos=codigos_asientos,
+                pelicula=pelicula_seleccionada['titulo'],
+            )
+            
+            # 22/10/2025 - CREAR Y GUARDAR EL TICKET
+            ticket = crear_ticket(
+                idUser = nombre_usuario,
+                pelicula = pelicula_seleccionada['titulo'],
+                sala = sala_info['salaId'],
+                asientos = codigos_asientos,
+                horario = sala_info['horario'],
+                precio_unitario = precio_final,
+                cantidad_asientos = cantidad_asientos,
+                descuento = descuento_aplicado  # descuento aplicado
+            )
+            
+            # 22/10/2025 - Guardar todo en el JSON
+            guardar_salas_json(dbFilms['salas'])
+            guardar_reserva_json(reserva, dbFilms)
+            guardar_ticket_json(ticket, dbFilms)
+            guardar_ticket_csv(ticket)
+            
+            # 22/10/2025 - MOSTRAR CONFIRMACIÓN CON ID DE RESERVA
+            print("\n" + "="*60)
+            print("✅ ¡RESERVA CONFIRMADA!".center(60))
+            print("="*60)
+            print()
+            print("🎉 Tu reserva ha sido procesada exitosamente")
+            print()
+            print("📋 INFORMACIÓN IMPORTANTE:")
+            print("-"*60)
+            print(f"🆔 ID DE RESERVA:  {reserva['id']}")
+            print(f"👤 Usuario:        {reserva['idUser']}")
+            print(f"🎬 Película:       {reserva['pelicula']}")
+            print(f"🏢 Sala:           {reserva['sala']}")
+            print(f"🕒 Horario:        {sala_info['horario']}")
+            print(f"💺 Asientos:       {reserva['asiento']}")
+            print("-"*60)
+            print()
+            print("⚠️  GUARDA ESTE ID DE RESERVA: " + reserva['id'])
+            print("   Lo necesitarás para buscar tu reserva")
+            print()
+            print("="*60)
+            
+            # Mostrar el ticket completo
+            print("\n")
+            mostrar_ticket(ticket)
+            
+            print("\n¡Disfruta tu película! 🍿🎉")
+            print("="*60)
+        else:
+            print("\n❌ Error al confirmar la reserva. Intenta de nuevo.")
     else:
-        print("\n❌ Reserva cancelada.")
-
-    input("\nPresiona ENTER para continuar...")
+        print("\n❌ Reserva cancelada. Los asientos no fueron reservados.")
+    
+    input("\nPresiona ENTER para volver al menú principal...")
 
 
 # ↓↓↓ Menú principal ↓↓↓
@@ -103,8 +181,8 @@ def main():
                 proceso_reserva(data)
 
             elif opcion == 2:
-                print("Funcionalidad de tickets no implementada aún.")
-                continue
+            # 22/10/2025 - Búsqueda de reservas por ID
+                proceso_buscar_reserva(data)
 
             elif opcion == 3:
                 mostrar_descuentos(data['descuentos'])

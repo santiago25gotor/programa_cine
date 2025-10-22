@@ -6,8 +6,16 @@
       "duracion": 120,
       "genero": "Ciencia Ficción",
       "salas": [
-        { "salaId": 1, "horario": "18:00" ,"precio": 9.50},
-        { "salaId": 2, "horario": "20:30", "precio": 9.50 }
+        {
+          "salaId": 1,
+          "horario": "18:00",
+          "precio": 9.5
+        },
+        {
+          "salaId": 2,
+          "horario": "20:30",
+          "precio": 9.5
+        }
       ]
     },
     {
@@ -16,7 +24,11 @@
       "duracion": 140,
       "genero": "Acción",
       "salas": [
-        { "salaId": 1, "horario": "21:00" ,"precio": 9.50}
+        {
+          "salaId": 1,
+          "horario": "21:00",
+          "precio": 9.5
+        }
       ]
     },
     {
@@ -25,9 +37,21 @@
       "duracion": 160,
       "genero": "Aventura",
       "salas": [
-        { "salaId": 1, "horario": "14:00" ,"precio": 9.50},
-        { "salaId": 2, "horario": "17:00" ,"precio": 9.50},
-        { "salaId": 4, "horario": "21:00","precio": 9.50 }
+        {
+          "salaId": 1,
+          "horario": "14:00",
+          "precio": 9.5
+        },
+        {
+          "salaId": 2,
+          "horario": "17:00",
+          "precio": 9.5
+        },
+        {
+          "salaId": 4,
+          "horario": "21:00",
+          "precio": 9.5
+        }
       ]
     }
   ],
@@ -36,18 +60,48 @@
       "id": 1,
       "nombre": "Sala 1",
       "asientos": [
-        [0,0,1,0],
-        [1,0,0,0],
-        [0,0,0,0]
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
       ]
     },
     {
       "id": 2,
       "nombre": "Sala 2",
       "asientos": [
-        [0,0,0,0],
-        [0,1,0,0],
-        [0,0,0,1]
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
       ]
     }
   ],
@@ -60,6 +114,33 @@
       "asiento": "12A",
       "pelicula": "shrek",
       "formato": "4K"
+    },
+    {
+      "id": "D971",
+      "idUser": "Sergi",
+      "timeStamp": "2025-10-22 18:54:22",
+      "sala": 2,
+      "asiento": "A1, A2, A3",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "N778",
+      "idUser": "Sergio",
+      "timeStamp": "2025-10-22 19:04:11",
+      "sala": 2,
+      "asiento": "A2, A3, A4",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "A923",
+      "idUser": "Paco sanz",
+      "timeStamp": "2025-10-22 19:43:40",
+      "sala": 2,
+      "asiento": "A3, B3",
+      "pelicula": "Cars",
+      "formato": "4K"
     }
   ],
   "ticket": [
@@ -68,35 +149,126 @@
       "idUser": "Paco sanz",
       "timeStamp": "18:12:12",
       "precio": [
-        { "idEntrada": 1, "precio": 12.2 },
-        { "idEntrada": 2, "precio": 12.2 }
+        {
+          "idEntrada": 1,
+          "precio": 12.2
+        },
+        {
+          "idEntrada": 2,
+          "precio": 12.2
+        }
       ],
       "pretioTotal": 22.4,
       "descuento": "12%",
       "tipoDescuento": "Estudiante",
       "formato": "4K"
+    },
+    {
+      "id": "Q632",
+      "idUser": "Sergi",
+      "timeStamp": "2025-10-22 18:54:22",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 3,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 28.5,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno",
+      "formato": "4K"
+    },
+    {
+      "id": "E335",
+      "idUser": "Sergio",
+      "timeStamp": "2025-10-22 19:04:11",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 3,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 28.5,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno",
+      "formato": "4K"
+    },
+    {
+      "id": "T335",
+      "idUser": "Paco sanz",
+      "timeStamp": "2025-10-22 19:43:40",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A3",
+        "B3"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 7.6
+        },
+        {
+          "idEntrada": 2,
+          "precio": 7.6
+        }
+      ],
+      "precioTotal": 12.16,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
     }
-  ], 
-  
-    "descuentos": [
-      {
-        "id": "0",
-        "name": "joven",
-        "description": "Lorem Impsun",
-        "descount": "20"
-      }, 
-      {
-        "id": "1",
-        "name": "+65",
-        "description": "Lorem Impsun",
-        "descount": "50"
-      }, 
-      {
-        "id": "3",
-        "name": "bono cultural",
-        "description": "Lorem Impsun",
-        "descount": "40"
-      }
-    ]
-  
+  ],
+  "descuentos": [
+    {
+      "id": "0",
+      "name": "joven",
+      "description": "Lorem Impsun",
+      "descount": "20"
+    },
+    {
+      "id": "1",
+      "name": "+65",
+      "description": "Lorem Impsun",
+      "descount": "50"
+    },
+    {
+      "id": "3",
+      "name": "bono cultural",
+      "description": "Lorem Impsun",
+      "descount": "40"
+    }
+  ]
 }
