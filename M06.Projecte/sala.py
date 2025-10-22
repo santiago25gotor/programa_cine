@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
+import json
+import random
+import string
 
 @dataclass
 class Sala:
@@ -111,7 +114,6 @@ def mostrar_asientos_disponibles(sala: dict, asientos_seleccionados: List[Tuple[
     for idx_fila, fila in enumerate(sala['asientos']):
         letra_fila = filas[idx_fila] if idx_fila < len(filas) else str(idx_fila)
         print(f" {letra_fila}  ", end="")
-        
         for idx_col, asiento in enumerate(fila):
             if (idx_fila, idx_col) in asientos_seleccionados:
                 print(" ❌ ", end="")
@@ -127,6 +129,7 @@ def mostrar_asientos_disponibles(sala: dict, asientos_seleccionados: List[Tuple[
 
 
 def pedir_cantidad_asientos(sala: dict) -> Optional[int]:
+   
     asientos_disponibles = contar_asientos_disponibles(sala)
     
     while True:
@@ -161,13 +164,14 @@ def pedir_cantidad_asientos(sala: dict) -> Optional[int]:
 
 
 def seleccionar_multiples_asientos(sala: dict, cantidad: int) -> Optional[List[Tuple[int, int]]]:
+   
     filas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     asientos_seleccionados = []
     
     if cantidad == 1:
-        print(f"\n📍 Selecciona tu asiento")
+        print(f"\n🔍 Selecciona tu asiento")
     else:
-        print(f"\n📍 Vas a seleccionar {cantidad} asientos")
+        print(f"\n🔍 Vas a seleccionar {cantidad} asientos")
     
     for i in range(cantidad):
         while True:
@@ -236,6 +240,7 @@ def seleccionar_multiples_asientos(sala: dict, cantidad: int) -> Optional[List[T
 
 
 def marcar_asientos_ocupados(sala: dict, asientos: List[Tuple[int, int]]) -> bool:
+   
     try:
         for fila, columna in asientos:
             if sala['asientos'][fila][columna] == 0:
@@ -248,6 +253,7 @@ def marcar_asientos_ocupados(sala: dict, asientos: List[Tuple[int, int]]) -> boo
 
 
 def asientos_a_codigo(asientos: List[Tuple[int, int]]) -> List[str]:
+ 
     filas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     codigos = []
     
@@ -258,64 +264,35 @@ def asientos_a_codigo(asientos: List[Tuple[int, int]]) -> List[str]:
     return codigos
 
 
-def seleccionar_asiento(sala: dict) -> Optional[Tuple[int, int]]:
-    filas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-    
-    while True:
-        mostrar_asientos_disponibles(sala)
-        
-        print("\n🔍 Selecciona tu asiento")
-        print("   Formato: FILA NÚMERO (ejemplo: A 1)")
-        print("   O escribe 'salir' para cancelar")
-        
-        entrada = input("\n➤ Asiento: ").strip().upper()
-        
-        if entrada.lower() == 'salir':
-            print("🔙 Cancelando selección de asiento...")
-            return None
-        
-        try:
-            partes = entrada.split()
-            if len(partes) != 2:
-                print("❌ Formato incorrecto. Usa: FILA NÚMERO (ejemplo: A 1)")
-                input("Presiona ENTER para continuar...")
-                continue
-            
-            fila_letra = partes[0]
-            numero_asiento = int(partes[1])
-            
-            if fila_letra not in filas[:len(sala['asientos'])]:
-                print(f"❌ Fila inválida. Usa letras de A a {filas[len(sala['asientos'])-1]}")
-                input("Presiona ENTER para continuar...")
-                continue
-            
-            fila_idx = filas.index(fila_letra)
-            
-            if numero_asiento < 1 or numero_asiento > len(sala['asientos'][fila_idx]):
-                print(f"❌ Número de asiento inválido. Usa números de 1 a {len(sala['asientos'][fila_idx])}")
-                input("Presiona ENTER para continuar...")
-                continue
-            
-            asiento_idx = numero_asiento - 1
-            
-            if sala['asientos'][fila_idx][asiento_idx] == 1:
-                print(f"❌ El asiento {fila_letra}{numero_asiento} ya está ocupado.")
-                input("Presiona ENTER para continuar...")
-                continue
-            
-            print(f"\n✅ Asiento seleccionado: {fila_letra}{numero_asiento}")
-            return (fila_idx, asiento_idx)
-        
-        except (ValueError, IndexError):
-            print("❌ Entrada inválida. Intenta de nuevo.")
-            input("Presiona ENTER para continuar...")
-
-
 def marcar_asiento_ocupado(sala: dict, fila: int, columna: int) -> bool:
+   
     try:
         if sala['asientos'][fila][columna] == 0:
             sala['asientos'][fila][columna] = 1
             return True
         return False
     except (IndexError, KeyError):
+        return False
+
+
+#22/10/25 - Función corregida para guardar solo salas y mantener el resto del JSON intacto
+def guardar_salas_json(salas: List[dict], archivo="dbFilms.json") -> bool:
+
+    try:
+        # Leer el archivo JSON completo
+        with open(archivo, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # Actualizar solo la sección de salas
+        data['salas'] = salas
+        
+        # Guardar el archivo JSON actualizado
+        with open(archivo, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        print(f"✅ Estado de salas guardado en {archivo}")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error al guardar salas en JSON: {e}")
         return False

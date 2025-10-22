@@ -1,0 +1,8 @@
+ID Ticket,Usuario,Fecha y Hora,Película,Sala,Asientos,Horario,Cantidad Entradas,Precio por Entrada,Precio Sin Descuento,Descuento,Tipo Descuento,Precio Total,Formato
+TKT-20251022140022,Santiago,2025-10-22 14:00:22,Cars,2,"A1, A2",17:00,2,9.5,19.0,0%,Ninguno,19.0,4K
+TKT-20251022140408,Sergi Gay,2025-10-22 14:04:08,Cars,2,B1,17:00,1,9.5,9.5,0%,Ninguno,9.5,4K
+Y103,Pepe,2025-10-22 14:13:37,Cars,2,B2,17:00,1,9.5,9.5,0%,Ninguno,9.5,4K
+L185,Julia,2025-10-22 14:19:26,Cars,2,C1,17:00,1,9.5,9.5,0%,Ninguno,9.5,4K
+A535,JUAN,2025-10-22 14:22:15,Inception,1,A1,21:00,1,9.5,9.5,0%,Ninguno,9.5,4K
+M858,TU MADRE,2025-10-22 14:26:39,Matrix,1,"B2, B3",18:00,2,9.5,19.0,0%,Ninguno,19.0,4K
+C159,santiago,2025-10-22 17:06:32,Cars,2,"A3, A4",17:00,2,9.5,19.0,0%,Ninguno,19.0,4K

@@ -4,9 +4,9 @@ import os
 from pelicula import mostrar_peliculas, seleccionar_pelicula
 from sala import (mostrar_salas, buscar_sala_por_id, seleccionar_sala, 
                   pedir_cantidad_asientos, seleccionar_multiples_asientos,
-                  marcar_asientos_ocupados, asientos_a_codigo)
-from reserva import mostrar_reservas
-from ticket import mostrar_tickets
+                  marcar_asientos_ocupados, asientos_a_codigo, guardar_salas_json)
+from reserva import mostrar_reservas, crear_reserva, guardar_reserva_json, proceso_buscar_reserva
+from ticket import mostrar_tickets, crear_ticket, guardar_ticket_json, guardar_ticket_csv, mostrar_ticket
 from descuento import mostrar_descuentos
 
 
@@ -24,10 +24,9 @@ def cargar_datos():
         return None
 
 
+# 22/10/2025 - CORREGIDO: Ahora muestra el ID de reserva claramente
 def proceso_reserva(dbFilms):
-    """
-    Proceso completo de reserva: película -> sala -> cantidad personas -> asientos
-    """
+   
     # 1. Seleccionar película
     pelicula_seleccionada = seleccionar_pelicula(dbFilms['peliculas'])
     if not pelicula_seleccionada:
@@ -81,15 +80,66 @@ def proceso_reserva(dbFilms):
     confirmacion = input("\n¿Confirmar reserva? (s/n): ").strip().lower()
     
     if confirmacion == 's':
-        # Marcar todos los asientos como ocupados
+        # 22/10/2025 - Pedir nombre del usuario
+        nombre_usuario = input("\n👤 Por favor, ingresa tu nombre: ").strip()
+        if not nombre_usuario:
+            nombre_usuario = "Usuario"
+        
         if marcar_asientos_ocupados(sala_completa, asientos_seleccionados):
+            
+            # 22/10/2025 - CREAR Y GUARDAR LA RESERVA
+            reserva = crear_reserva(
+                idUser=nombre_usuario,
+                sala=sala_info['salaId'],
+                asientos=codigos_asientos,
+                pelicula=pelicula_seleccionada['titulo'],
+                formato="4K"
+            )
+            
+            # 22/10/2025 - CREAR Y GUARDAR EL TICKET
+            ticket = crear_ticket(
+                idUser=nombre_usuario,
+                pelicula=pelicula_seleccionada['titulo'],
+                sala=sala_info['salaId'],
+                asientos=codigos_asientos,
+                horario=sala_info['horario'],
+                precio_unitario=precio_unitario,
+                cantidad_asientos=cantidad_asientos,
+                descuento=None  # Sin descuento por ahora
+            )
+            
+            # 22/10/2025 - Guardar todo en el JSON
+            guardar_salas_json(dbFilms['salas'])
+            guardar_reserva_json(reserva, dbFilms)
+            guardar_ticket_json(ticket, dbFilms)
+            guardar_ticket_csv(ticket)
+            
+            # 22/10/2025 - MOSTRAR CONFIRMACIÓN CON ID DE RESERVA
             print("\n" + "="*60)
             print("✅ ¡RESERVA CONFIRMADA!".center(60))
             print("="*60)
-            print(f"🎫 Tus asientos: {', '.join(codigos_asientos)}")
-            print(f"💵 Total pagado: ${precio_total:.2f}")
-            print(f"🎬 Película: {pelicula_seleccionada['titulo']}")
-            print(f"🕒 Horario: {sala_info['horario']}")
+            print()
+            print("🎉 Tu reserva ha sido procesada exitosamente")
+            print()
+            print("📋 INFORMACIÓN IMPORTANTE:")
+            print("-"*60)
+            print(f"🆔 ID DE RESERVA:  {reserva['id']}")
+            print(f"👤 Usuario:        {reserva['idUser']}")
+            print(f"🎬 Película:       {reserva['pelicula']}")
+            print(f"🏢 Sala:           {reserva['sala']}")
+            print(f"🕒 Horario:        {sala_info['horario']}")
+            print(f"💺 Asientos:       {reserva['asiento']}")
+            print("-"*60)
+            print()
+            print("⚠️  GUARDA ESTE ID DE RESERVA: " + reserva['id'])
+            print("   Lo necesitarás para buscar tu reserva")
+            print()
+            print("="*60)
+            
+            # Mostrar el ticket completo
+            print("\n")
+            mostrar_ticket(ticket)
+            
             print("\n¡Disfruta tu película! 🍿🎉")
             print("="*60)
         else:
@@ -106,7 +156,7 @@ def mostrar_menu():
     print("🎬 SISTEMA DE RESERVAS DE CINE 🎬".center(60))
     print("="*60)
     print("1. 🎥 Reservar película")
-    print("2. 🎫 Buscar mi ticket")
+    print("2. 🔍 Buscar mi reserva")
     print("3. 🎁 Ver descuentos disponibles")
     print("4. 🚪 Salir")
     print("="*60)
@@ -133,9 +183,8 @@ def main():
                 proceso_reserva(data)
                 
             elif opcion == 2:
-                print("\n🚧 Función en desarrollo...")
-                print("Pronto podrás buscar y ver tus tickets.")
-                input("\nPresiona ENTER para continuar...")
+                # 22/10/2025 - Búsqueda de reservas por ID
+                proceso_buscar_reserva(data)
               
             elif opcion == 3:
                 mostrar_descuentos(data['descuentos'])
