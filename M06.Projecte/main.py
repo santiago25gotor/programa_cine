@@ -1,6 +1,7 @@
 import json
 import os
 
+from generar_ticket import generar_ticket
 from pelicula import seleccionar_pelicula
 from sala import ( buscar_sala_por_id, seleccionar_sala, 
                   pedir_cantidad_asientos, seleccionar_multiples_asientos,
@@ -102,6 +103,7 @@ def proceso_reserva(dbFilms):
                 asientos=codigos_asientos,
                 pelicula=pelicula_seleccionada['titulo'],
             )
+            generar_ticket(reserva, descuento_aplicado)
             
             # 22/10/2025 - CREAR Y GUARDAR EL TICKET
             ticket = crear_ticket(
@@ -110,7 +112,7 @@ def proceso_reserva(dbFilms):
                 sala = sala_info['salaId'],
                 asientos = codigos_asientos,
                 horario = sala_info['horario'],
-                precio_unitario = precio_final,
+                precio_unitario = sala_info['precio'],
                 cantidad_asientos = cantidad_asientos,
                 descuento = descuento_aplicado  # descuento aplicado
             )

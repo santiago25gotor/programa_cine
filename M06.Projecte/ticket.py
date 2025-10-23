@@ -136,7 +136,6 @@ def guardar_ticket_csv(ticket, archivo="tickets.csv"):
                     'Descuento',
                     'Tipo Descuento',
                     'Precio Total',
-                    'Formato'
                 ])
             
             # Escribir datos del ticket
@@ -153,15 +152,14 @@ def guardar_ticket_csv(ticket, archivo="tickets.csv"):
                 precio_sin_descuento,
                 ticket['descuento'],
                 ticket['tipoDescuento'],
-                ticket['precioTotal'],
-                ticket['formato']
+                ticket['precioTotal']
             ])
         
-      #  print(f"✅ Ticket guardado en {archivo}")
+        print(f"✅ Ticket guardado en {archivo}")
         return True
         
     except Exception as e:
-       # print(f"❌ Error al guardar ticket en CSV: {e}")
+        print(f"❌ Error al guardar ticket en CSV: {e}")
         return False
 
 
