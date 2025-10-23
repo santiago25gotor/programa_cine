@@ -1,13 +1,21 @@
 {
-  "peliculas": [
+ "peliculas": [
     {
       "id": 101,
       "titulo": "Matrix",
       "duracion": 120,
       "genero": "Ciencia Ficción",
       "salas": [
-        { "salaId": 1, "horario": "18:00" },
-        { "salaId": 2, "horario": "20:30" }
+        {
+          "salaId": 1,
+          "horario": "18:00",
+          "precio": 9.5
+        },
+        {
+          "salaId": 2,
+          "horario": "20:30",
+          "precio": 9.5
+        }
       ]
     },
     {
@@ -16,7 +24,11 @@
       "duracion": 140,
       "genero": "Acción",
       "salas": [
-        { "salaId": 1, "horario": "21:00" }
+        {
+          "salaId": 1,
+          "horario": "21:00",
+          "precio": 9.5
+        }
       ]
     },
     {
@@ -25,9 +37,119 @@
       "duracion": 160,
       "genero": "Aventura",
       "salas": [
-        { "salaId": 1, "horario": "14:00" },
-        { "salaId": 2, "horario": "17:00" },
-        { "salaId": 4, "horario": "21:00" }
+        {
+          "salaId": 1,
+          "horario": "14:00",
+          "precio": 9.5
+        },
+        {
+          "salaId": 2,
+          "horario": "17:00",
+          "precio": 9.5
+        },
+        {
+          "salaId": 4,
+          "horario": "21:00",
+          "precio": 9.5
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "titulo": "La La Land",
+      "duracion": 128,
+      "genero": "Musical",
+      "salas": [
+        {
+          "salaId": 2,
+          "horario": "16:00",
+          "precio": 8.9
+        },
+        {
+          "salaId": 4,
+          "horario": "19:00",
+          "precio": 9.5
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "titulo": "IA",
+      "duracion": 115,
+      "genero": "Ciencia Ficción",
+      "salas": [
+        {
+          "salaId": 1,
+          "horario": "19:30",
+          "precio": 10.5
+        },
+        {
+          "salaId": 3,
+          "horario": "22:00",
+          "precio": 9.5
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "titulo": "Shrek",
+      "duracion": 90,
+      "genero": "Animación",
+      "salas": [
+        {
+          "salaId": 2,
+          "horario": "15:00",
+          "precio": 8.0
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "titulo": "Interstellar",
+      "duracion": 169,
+      "genero": "Ciencia Ficción",
+      "salas": [
+        {
+          "salaId": 3,
+          "horario": "18:00",
+          "precio": 11.0
+        },
+        {
+          "salaId": 4,
+          "horario": "21:30",
+          "precio": 11.0
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "titulo": "El Padrino",
+      "duracion": 175,
+      "genero": "Drama",
+      "salas": [
+        {
+          "salaId": 1,
+          "horario": "22:00",
+          "precio": 9.5
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "titulo": "Buscando a Nemo",
+      "duracion": 100,
+      "genero": "Animación",
+      "salas": [
+        {
+          "salaId": 2,
+          "horario": "12:00",
+          "precio": 8.0
+        },
+        {
+          "salaId": 4,
+          "horario": "14:30",
+          "precio": 8.0
+        }
       ]
     }
   ],
@@ -36,18 +158,48 @@
       "id": 1,
       "nombre": "Sala 1",
       "asientos": [
-        [0,0,1,0],
-        [1,0,0,0],
-        [0,0,0,0]
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
       ]
     },
     {
       "id": 2,
       "nombre": "Sala 2",
       "asientos": [
-        [0,0,0,0],
-        [0,1,0,0],
-        [0,0,0,1]
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
       ]
     }
   ],
@@ -60,6 +212,150 @@
       "asiento": "12A",
       "pelicula": "shrek",
       "formato": "4K"
+    },
+    {
+      "id": "D971",
+      "idUser": "Sergi",
+      "timeStamp": "2025-10-22 18:54:22",
+      "sala": 2,
+      "asiento": "A1, A2, A3",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "N778",
+      "idUser": "Sergio",
+      "timeStamp": "2025-10-22 19:04:11",
+      "sala": 2,
+      "asiento": "A2, A3, A4",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "A923",
+      "idUser": "Paco sanz",
+      "timeStamp": "2025-10-22 19:43:40",
+      "sala": 2,
+      "asiento": "A3, B3",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "C426",
+      "idUser": "Hola",
+      "timeStamp": "2025-10-22 20:16:46",
+      "sala": 2,
+      "asiento": "C1",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "X671",
+      "idUser": "Rosalia",
+      "timeStamp": "2025-10-22 20:24:35",
+      "sala": 1,
+      "asiento": "A1, A2",
+      "pelicula": "Matrix",
+      "formato": "4K"
+    },
+    {
+      "id": "D743",
+      "idUser": "asfew",
+      "timeStamp": "2025-10-22 20:26:18",
+      "sala": 2,
+      "asiento": "C2",
+      "pelicula": "Matrix",
+      "formato": "4K"
+    },
+    {
+      "id": "F497",
+      "idUser": "ewf",
+      "timeStamp": "2025-10-22 20:29:49",
+      "sala": 2,
+      "asiento": "C3",
+      "pelicula": "Matrix",
+      "formato": "4K"
+    },
+    {
+      "id": "A977",
+      "idUser": "nerea",
+      "timeStamp": "2025-10-23 17:37:57",
+      "sala": 2,
+      "asiento": "A4, B1",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "C566",
+      "idUser": "hola",
+      "timeStamp": "2025-10-23 17:49:43",
+      "sala": 2,
+      "asiento": "B1, B3",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "C874",
+      "idUser": "wef",
+      "timeStamp": "2025-10-23 17:50:26",
+      "sala": 1,
+      "asiento": "C1, C2",
+      "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "W297",
+      "idUser": "opuesto",
+      "timeStamp": "2025-10-23 17:58:54",
+      "sala": 1,
+      "asiento": "C2, C3",
+      "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "H719",
+      "idUser": "wegw",
+      "timeStamp": "2025-10-23 17:59:30",
+      "sala": 1,
+      "asiento": "C3, C4",
+      "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "J984",
+      "idUser": "ewg",
+      "timeStamp": "2025-10-23 18:03:45",
+      "sala": 1,
+      "asiento": "C4, A4",
+      "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "P375",
+      "idUser": "ggg",
+      "timeStamp": "2025-10-23 18:18:19",
+      "sala": 1,
+      "asiento": "A2",
+      "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "K347",
+      "idUser": "jaovier",
+      "timeStamp": "2025-10-23 18:49:42",
+      "sala": 1,
+      "asiento": "B2, B3",
+      "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "B309",
+      "idUser": "ewr",
+      "timeStamp": "2025-10-23 18:50:32",
+      "sala": 1,
+      "asiento": "A4",
+      "pelicula": "Inception",
+      "formato": "4K"
     }
   ],
   "ticket": [
@@ -68,35 +364,426 @@
       "idUser": "Paco sanz",
       "timeStamp": "18:12:12",
       "precio": [
-        { "idEntrada": 1, "precio": 12.2 },
-        { "idEntrada": 2, "precio": 12.2 }
+        {
+          "idEntrada": 1,
+          "precio": 12.2
+        },
+        {
+          "idEntrada": 2,
+          "precio": 12.2
+        }
       ],
       "pretioTotal": 22.4,
       "descuento": "12%",
       "tipoDescuento": "Estudiante",
       "formato": "4K"
+    },
+    {
+      "id": "Q632",
+      "idUser": "Sergi",
+      "timeStamp": "2025-10-22 18:54:22",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 3,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 28.5,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno",
+      "formato": "4K"
+    },
+    {
+      "id": "E335",
+      "idUser": "Sergio",
+      "timeStamp": "2025-10-22 19:04:11",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 3,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 28.5,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno",
+      "formato": "4K"
+    },
+    {
+      "id": "T335",
+      "idUser": "Paco sanz",
+      "timeStamp": "2025-10-22 19:43:40",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A3",
+        "B3"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 7.6
+        },
+        {
+          "idEntrada": 2,
+          "precio": 7.6
+        }
+      ],
+      "precioTotal": 12.16,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "Q714",
+      "idUser": "Hola",
+      "timeStamp": "2025-10-22 20:16:46",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "C1"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 7.6
+        }
+      ],
+      "precioTotal": 6.08,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "X215",
+      "idUser": "Rosalia",
+      "timeStamp": "2025-10-22 20:24:35",
+      "pelicula": "Matrix",
+      "sala": 1,
+      "asientos": [
+        "A1",
+        "A2"
+      ],
+      "horario": "18:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 4.75
+        },
+        {
+          "idEntrada": 2,
+          "precio": 4.75
+        }
+      ],
+      "precioTotal": 4.75,
+      "descuento": "50%",
+      "tipoDescuento": "+65"
+    },
+    {
+      "id": "X281",
+      "idUser": "asfew",
+      "timeStamp": "2025-10-22 20:26:18",
+      "pelicula": "Matrix",
+      "sala": 2,
+      "asientos": [
+        "C2"
+      ],
+      "horario": "20:30",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 9.5,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno"
+    },
+    {
+      "id": "W528",
+      "idUser": "ewf",
+      "timeStamp": "2025-10-22 20:29:49",
+      "pelicula": "Matrix",
+      "sala": 2,
+      "asientos": [
+        "C3"
+      ],
+      "horario": "20:30",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 9.5,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno"
+    },
+    {
+      "id": "Y403",
+      "idUser": "nerea",
+      "timeStamp": "2025-10-23 17:37:57",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "A4",
+        "B1"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 5.7
+        },
+        {
+          "idEntrada": 2,
+          "precio": 5.7
+        }
+      ],
+      "precioTotal": 6.84,
+      "descuento": "40%",
+      "tipoDescuento": "bono cultural"
+    },
+    {
+      "id": "I198",
+      "idUser": "hola",
+      "timeStamp": "2025-10-23 17:49:43",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "B1",
+        "B3"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 19.0,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno"
+    },
+    {
+      "id": "V379",
+      "idUser": "wef",
+      "timeStamp": "2025-10-23 17:50:26",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "C1",
+        "C2"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 15.2,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "S914",
+      "idUser": "opuesto",
+      "timeStamp": "2025-10-23 17:58:54",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "C2",
+        "C3"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 15.2,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "S608",
+      "idUser": "wegw",
+      "timeStamp": "2025-10-23 17:59:30",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "C3",
+        "C4"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 19.0,
+      "descuento": "0%",
+      "tipoDescuento": "Ninguno"
+    },
+    {
+      "id": "Z160",
+      "idUser": "ewg",
+      "timeStamp": "2025-10-23 18:03:45",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "C4",
+        "A4"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 15.2,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "L130",
+      "idUser": "ggg",
+      "timeStamp": "2025-10-23 18:18:19",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "A2"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 7.6,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "Y520",
+      "idUser": "jaovier",
+      "timeStamp": "2025-10-23 18:49:42",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "B2",
+        "B3"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 15.2,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "R727",
+      "idUser": "ewr",
+      "timeStamp": "2025-10-23 18:50:32",
+      "pelicula": "Inception",
+      "sala": 1,
+      "asientos": [
+        "A4"
+      ],
+      "horario": "21:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 9.5
+        }
+      ],
+      "precioTotal": 7.6,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
     }
-  ], 
-  
-    "descuentos": [
-      {
-        "id": "0",
-        "name": "joven",
-        "description": "Lorem Impsun",
-        "descount": "20"
-      }, 
-      {
-        "id": "1",
-        "name": "+65",
-        "description": "Lorem Impsun",
-        "descount": "50"
-      }, 
-      {
-        "id": "3",
-        "name": "bono cultural",
-        "description": "Lorem Impsun",
-        "descount": "40"
-      }
-    ]
-  
+  ],
+  "descuentos": [
+    {
+      "id": "0",
+      "name": "joven",
+      "description": "Lorem Impsun",
+      "descount": "20"
+    },
+    {
+      "id": "1",
+      "name": "+65",
+      "description": "Lorem Impsun",
+      "descount": "50"
+    },
+    {
+      "id": "3",
+      "name": "bono cultural",
+      "description": "Lorem Impsun",
+      "descount": "40"
+    }
+  ]
 }

@@ -1,75 +1,16 @@
 import json
 import os
 
-from pelicula import mostrar_peliculas
-from sala import mostrar_salas
-from reserva import mostrar_reservas
-from ticket import mostrar_tickets
-from descuento import mostrar_descuentos
-from dataclasses import dataclass
-from typing import List
+from generar_ticket import generar_ticket
+from pelicula import seleccionar_pelicula
+from sala import ( buscar_sala_por_id, seleccionar_sala, 
+                  pedir_cantidad_asientos, seleccionar_multiples_asientos,
+                  marcar_asientos_ocupados, asientos_a_codigo ,guardar_salas_json)
+from reserva import crear_reserva, guardar_reserva_json, proceso_buscar_reserva
+from ticket import crear_ticket, guardar_ticket_json, guardar_ticket_csv, mostrar_ticket
+from descuento import mostrar_descuentos, aplicar_descuento
 
-@dataclass
-class SalaHorario:
-    salaId: int
-    horario: str
-
-@dataclass
-class Pelicula:
-    id: int
-    titulo: str
-    duracion: int
-    genero: str
-    salas: List[SalaHorario]
-
-@dataclass
-class Sala:
-    id: int
-    nombre: str
-    asientos: List[List[int]]
-
-@dataclass
-class Reserva:
-    id: str
-    idUser: str
-    timeStamp: str
-    sala: int
-    asiento: str
-    pelicula: str
-    formato: str
-
-@dataclass
-class PrecioEntrada:
-    idEntrada: int
-    precio: float
-
-@dataclass
-class Ticket:
-    id: str
-    idUser: str
-    timeStamp: str
-    precio: List[PrecioEntrada]
-    pretioTotal: float
-    descuento: str
-    tipoDescuento: str
-    formato: str
-
-@dataclass
-class Descuento:
-    id: str
-    name: str
-    description: str
-    descount: str
-
-@dataclass
-class CineData:
-    peliculas: List[Pelicula]
-    salas: List[Sala]
-    reserva: List[Reserva]
-    ticket: List[Ticket]
-    descuentos: List[Descuento]
-
-
+# ↓↓↓ Cargar datos desde JSON como diccionarios ↓↓↓
 def cargar_datos():
     filename = "dbFilms.json" 
     if os.path.isfile(filename):
@@ -84,7 +25,141 @@ def cargar_datos():
         return None
 
 
-# Mostrar el menú
+# ↓↓↓ Proceso principal de reserva ↓↓↓
+def proceso_reserva(dbFilms):
+    # 1. Seleccionar película
+    pelicula_seleccionada = seleccionar_pelicula(dbFilms['peliculas'])
+    if not pelicula_seleccionada:
+        return
+
+    # 2. Seleccionar sala
+    sala_info = seleccionar_sala(pelicula_seleccionada, dbFilms['salas'])
+    if not sala_info:
+        return
+
+    # 3. Buscar sala completa
+    sala_completa = buscar_sala_por_id(dbFilms['salas'], sala_info['salaId'])
+    if not sala_completa:
+        print("❌ Error: No se encontró la sala.")
+        return
+
+    # 4. pedir asientos selecionados
+    cantidad_asientos = pedir_cantidad_asientos(sala_completa)
+    if cantidad_asientos is None:
+        return
+
+ # 5. Seleccionar los asientos (uno por cada persona)
+    asientos_seleccionados = seleccionar_multiples_asientos(sala_completa, cantidad_asientos)
+    if not asientos_seleccionados:
+        return
+    
+    # Convertir asientos a códigos legibles (A1, A2, B3, etc.)
+    codigos_asientos = asientos_a_codigo(asientos_seleccionados)
+    
+
+    # 6. Aplicar descuento si se desea
+    aplicar = input("\n¿Deseas aplicar un descuento? (s/n): ").strip().lower()
+    if aplicar == 's':
+        descuento_aplicado, precio_final = aplicar_descuento(dbFilms['descuentos'], sala_info['precio'])
+        if descuento_aplicado:
+            print(f"\n✅ Se aplicó el descuento '{descuento_aplicado['name']}' ({descuento_aplicado['descount']}%).")
+            print("💡 Recuerda presentar tu comprobante del descuento al ingresar a la sala.")
+        else:
+            print("\n⚠️ No se aplicó ningún descuento.")
+    else:
+        precio_final = sala_info['precio']
+        descuento_aplicado = None
+
+    # Calcular precio total
+    precio_total = precio_final * cantidad_asientos
+
+    # 6. Mostrar resumen
+    print("\n" + "=" * 50)
+    print("📋 RESUMEN DE TU RESERVA".center(50))
+    print("=" * 50)
+    print(f"🎬 Película: {pelicula_seleccionada['titulo']}")
+    print(f"🏢 Sala: {sala_completa['nombre']}")
+    print(f"🕒 Horario: {sala_info['horario']}")
+    print("-"*60)
+    print(f"👥 Personas:        {cantidad_asientos}")
+    print("-"*60)
+    print(f"💰 Precio/persona:  ${precio_final}")
+    print(f"💵 TOTAL A PAGAR:   ${precio_total:.2f}")
+    print("=" * 50)
+
+    confirmacion = input("\n¿Confirmar reserva? (s/n): ").strip().lower()
+    if confirmacion == 's':
+        # 22/10/2025 - Pedir nombre del usuario
+        nombre_usuario = input("\n👤 Por favor, ingresa tu nombre: ").strip()
+        if not nombre_usuario:
+            nombre_usuario = "Usuario"
+        
+        if marcar_asientos_ocupados(sala_completa, asientos_seleccionados):
+            
+            # 22/10/2025 - CREAR Y GUARDAR LA RESERVA
+            reserva = crear_reserva(
+                idUser=nombre_usuario,
+                sala=sala_info['salaId'],
+                asientos=codigos_asientos,
+                pelicula=pelicula_seleccionada['titulo'],
+            )
+            generar_ticket(reserva, descuento_aplicado)
+            
+            # 22/10/2025 - CREAR Y GUARDAR EL TICKET
+            ticket = crear_ticket(
+                idUser = nombre_usuario,
+                pelicula = pelicula_seleccionada['titulo'],
+                sala = sala_info['salaId'],
+                asientos = codigos_asientos,
+                horario = sala_info['horario'],
+                precio_unitario = sala_info['precio'],
+                cantidad_asientos = cantidad_asientos,
+                descuento = descuento_aplicado  # descuento aplicado
+            )
+            
+            # 22/10/2025 - Guardar todo en el JSON
+            guardar_salas_json(dbFilms['salas'])
+            guardar_reserva_json(reserva, dbFilms)
+            guardar_ticket_json(ticket, dbFilms)
+            guardar_ticket_csv(ticket)
+            
+            # 22/10/2025 - MOSTRAR CONFIRMACIÓN CON ID DE RESERVA
+            print("\n" + "="*60)
+            print("✅ ¡RESERVA CONFIRMADA!".center(60))
+            print("="*60)
+            print()
+            print("🎉 Tu reserva ha sido procesada exitosamente")
+            print()
+            print("📋 INFORMACIÓN IMPORTANTE:")
+            print("-"*60)
+            print(f"🆔 ID DE RESERVA:  {reserva['id']}")
+            print(f"👤 Usuario:        {reserva['idUser']}")
+            print(f"🎬 Película:       {reserva['pelicula']}")
+            print(f"🏢 Sala:           {reserva['sala']}")
+            print(f"🕒 Horario:        {sala_info['horario']}")
+            print(f"💺 Asientos:       {reserva['asiento']}")
+            print("-"*60)
+            print()
+            print("⚠️  GUARDA ESTE ID DE RESERVA: " + reserva['id'])
+            print("   Lo necesitarás para buscar tu reserva")
+            print()
+            print("="*60)
+            
+            # Mostrar el ticket completo
+            print("\n")
+            mostrar_ticket(ticket)
+            
+            print("\n¡Disfruta tu película! 🍿🎉")
+            print("="*60)
+        else:
+            print("\n❌ Error al confirmar la reserva. Intenta de nuevo.")
+    else:
+        print("\n❌ Reserva cancelada. Los asientos no fueron reservados.")
+    
+    input("\nPresiona ENTER para volver al menú principal...")
+
+
+# ↓↓↓ Menú principal ↓↓↓
 def mostrar_menu():
     print("\n--- Menú del Gestor de Cine ---")
     print("1. Buscar peliculas")
@@ -99,39 +174,30 @@ def main():
         print("No se pudo cargar el archivo JSON. Saliendo.")
         return
 
-    dbFilms = CineData(**data)  # aquí ya debería funcionar si data es válido
-    
     while True:
         mostrar_menu()
         try:
             opcion = int(input("Elige una opción (1-4): "))
 
             if opcion == 1:
-                mostrar_peliculas(dbFilms.peliculas)
+                proceso_reserva(data)
+
             elif opcion == 2:
-               # quitar_producto() 
-               continue
-              
+            # 22/10/2025 - Búsqueda de reservas por ID
+                proceso_buscar_reserva(data)
+
             elif opcion == 3:
-             mostrar_descuentos(dbFilms.descuentos)
+                mostrar_descuentos(data['descuentos'])
+
             elif opcion == 4:
                 print("¡Gracias por usar el gestor de compras! Hasta pronto.")
-                break 
+                break
 
             else:
                 print("Opción no válida. Por favor, elige una opción entre 1 y 4.")
         except ValueError:
             print("Entrada inválida. Por favor, elige una opción numérica.")
 
-
-'''
-    mostrar_peliculas(dbFilms.peliculas)
-    mostrar_salas(dbFilms.salas)
-    mostrar_reservas(dbFilms.reserva)
-    mostrar_tickets(dbFilms.ticket)
-    mostrar_descuentos(dbFilms.descuentos)
-
-'''
 
 if __name__ == "__main__":
     main()
