@@ -1,14 +1,15 @@
 import json
 import os
 
-from generar_ticket import generar_ticket
 from pelicula import seleccionar_pelicula
-from sala import ( buscar_sala_por_id, seleccionar_sala, 
-                  pedir_cantidad_asientos, seleccionar_multiples_asientos,
-                  marcar_asientos_ocupados, asientos_a_codigo ,guardar_salas_json)
+#24/10/25 - Importar nuevas funciones para sistema de funciones independientes
+from sala import (buscar_sala_por_id, seleccionar_sala, 
+                  pedir_cantidad_asientos_funcion, seleccionar_multiples_asientos_funcion,
+                  marcar_asientos_ocupados_funcion, asientos_a_codigo, guardar_funciones_json)
 from reserva import crear_reserva, guardar_reserva_json, proceso_buscar_reserva
 from ticket import crear_ticket, guardar_ticket_json, guardar_ticket_csv, mostrar_ticket
 from descuento import mostrar_descuentos, aplicar_descuento
+from generar_ticket import generar_ticket # 24/10/2025 
 
 # ↓↓↓ Cargar datos desde JSON como diccionarios ↓↓↓
 def cargar_datos():
@@ -19,6 +20,12 @@ def cargar_datos():
             data = json.load(f)
         print("Archivo cargado correctamente.")
         print(f"Cantidad de elementos en el JSON: {len(data)}")
+        
+        #24/10/25 - Inicializar estructura de funciones si no existe
+        if 'funciones' not in data:
+            data['funciones'] = {}
+            print("✅ Sistema de funciones independientes inicializado")
+        
         return data
     else:
         print(f"Error: El archivo '{filename}' NO fue encontrado.")
@@ -32,24 +39,28 @@ def proceso_reserva(dbFilms):
     if not pelicula_seleccionada:
         return
 
-    # 2. Seleccionar sala
-    sala_info = seleccionar_sala(pelicula_seleccionada, dbFilms['salas'])
+    #24/10/25 - 2. Seleccionar sala (ahora recibe dbFilms para verificar disponibilidad por función)
+    sala_info = seleccionar_sala(pelicula_seleccionada, dbFilms['salas'], dbFilms)
     if not sala_info:
         return
 
-    # 3. Buscar sala completa
+    # 3. Buscar sala completa (plantilla base)
     sala_completa = buscar_sala_por_id(dbFilms['salas'], sala_info['salaId'])
     if not sala_completa:
         print("❌ Error: No se encontró la sala.")
         return
 
-    # 4. pedir asientos selecionados
-    cantidad_asientos = pedir_cantidad_asientos(sala_completa)
+    #24/10/25 - 4. Pedir asientos para la función específica
+    cantidad_asientos = pedir_cantidad_asientos_funcion(
+        dbFilms, pelicula_seleccionada['id'], sala_info['salaId'], sala_info['horario']
+    )
     if cantidad_asientos is None:
         return
 
- # 5. Seleccionar los asientos (uno por cada persona)
-    asientos_seleccionados = seleccionar_multiples_asientos(sala_completa, cantidad_asientos)
+    #24/10/25 - 5. Seleccionar asientos de la función específica
+    asientos_seleccionados = seleccionar_multiples_asientos_funcion(
+        dbFilms, pelicula_seleccionada['id'], sala_completa, sala_info['horario'], cantidad_asientos
+    )
     if not asientos_seleccionados:
         return
     
@@ -73,7 +84,7 @@ def proceso_reserva(dbFilms):
     # Calcular precio total
     precio_total = precio_final * cantidad_asientos
 
-    # 6. Mostrar resumen
+    # 7. Mostrar resumen
     print("\n" + "=" * 50)
     print("📋 RESUMEN DE TU RESERVA".center(50))
     print("=" * 50)
@@ -89,41 +100,44 @@ def proceso_reserva(dbFilms):
 
     confirmacion = input("\n¿Confirmar reserva? (s/n): ").strip().lower()
     if confirmacion == 's':
-        # 22/10/2025 - Pedir nombre del usuario
+        # Pedir nombre del usuario
         nombre_usuario = input("\n👤 Por favor, ingresa tu nombre: ").strip()
         if not nombre_usuario:
             nombre_usuario = "Usuario"
         
-        if marcar_asientos_ocupados(sala_completa, asientos_seleccionados):
+        #24/10/25 - Marcar asientos en la función específica
+        if marcar_asientos_ocupados_funcion(
+            dbFilms, pelicula_seleccionada['id'], sala_info['salaId'], 
+            sala_info['horario'], asientos_seleccionados
+        ):
             
-            # 22/10/2025 - CREAR Y GUARDAR LA RESERVA
+            # CREAR Y GUARDAR LA RESERVA
             reserva = crear_reserva(
                 idUser=nombre_usuario,
                 sala=sala_info['salaId'],
                 asientos=codigos_asientos,
                 pelicula=pelicula_seleccionada['titulo'],
             )
-            generar_ticket(reserva, descuento_aplicado)
             
-            # 22/10/2025 - CREAR Y GUARDAR EL TICKET
+            # CREAR Y GUARDAR EL TICKET
             ticket = crear_ticket(
                 idUser = nombre_usuario,
                 pelicula = pelicula_seleccionada['titulo'],
                 sala = sala_info['salaId'],
                 asientos = codigos_asientos,
                 horario = sala_info['horario'],
-                precio_unitario = sala_info['precio'],
+                precio_unitario = precio_final,
                 cantidad_asientos = cantidad_asientos,
-                descuento = descuento_aplicado  # descuento aplicado
+                descuento = descuento_aplicado
             )
             
-            # 22/10/2025 - Guardar todo en el JSON
-            guardar_salas_json(dbFilms['salas'])
+            #24/10/25 - Guardar todo en el JSON (incluyendo funciones)
+            guardar_funciones_json(dbFilms)
             guardar_reserva_json(reserva, dbFilms)
             guardar_ticket_json(ticket, dbFilms)
             guardar_ticket_csv(ticket)
             
-            # 22/10/2025 - MOSTRAR CONFIRMACIÓN CON ID DE RESERVA
+            # MOSTRAR CONFIRMACIÓN CON ID DE RESERVA
             print("\n" + "="*60)
             print("✅ ¡RESERVA CONFIRMADA!".center(60))
             print("="*60)
@@ -145,6 +159,7 @@ def proceso_reserva(dbFilms):
             print()
             print("="*60)
             
+            generar_ticket(reserva, descuento_aplicado)
             # Mostrar el ticket completo
             print("\n")
             mostrar_ticket(ticket)
@@ -183,7 +198,7 @@ def main():
                 proceso_reserva(data)
 
             elif opcion == 2:
-            # 22/10/2025 - Búsqueda de reservas por ID
+                # Búsqueda de reservas por ID
                 proceso_buscar_reserva(data)
 
             elif opcion == 3:
