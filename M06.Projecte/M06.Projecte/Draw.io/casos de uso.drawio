@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Casos de Uso Cine">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Actores -->
+        <mxCell id="actorUsuario" value="Usuario" style="shape=actor;fillColor=#FFD966;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="40" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Casos de uso principales -->
+        <mxCell id="cuBuscarPeliculas" value="Buscar Películas" style="ellipse;fillColor=#9DC3E6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="200" y="60" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cuComprarEntrada" value="Comprar Entrada" style="ellipse;fillColor=#9DC3E6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="200" y="180" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cuVerDescuentos" value="Ver Descuentos" style="ellipse;fillColor=#9DC3E6;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="200" y="300" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Casos de uso incluidos -->
+        <mxCell id="cuValidarPago" value="Validar Pago" style="ellipse;fillColor=#8FD9A8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="420" y="180" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cuSeleccionarAsiento" value="Seleccionar Asiento" style="ellipse;fillColor=#8FD9A8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="420" y="260" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Casos de uso extendidos -->
+        <mxCell id="cuVerCaptcha" value="Verificar Captcha" style="ellipse;fillColor=#F4A7B9;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="200" y="240" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Conexiones Actor a casos de uso -->
+        <mxCell id="conActor1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="actorUsuario" target="cuBuscarPeliculas">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="conActor2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="actorUsuario" target="cuComprarEntrada">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="conActor3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="actorUsuario" target="cuVerDescuentos">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Include relaciones -->
+        <mxCell id="include1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#000000;" edge="1" parent="1" source="cuComprarEntrada" target="cuValidarPago">
+          <mxGeometry relative="1" as="geometry"/>
+          <mxCell style="edgeLabel;html=1;fontColor=#000000;" value="<<include>>" vertex="0" parent="1"/>
+        </mxCell>
+
+        <mxCell id="include2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#000000;" edge="1" parent="1" source="cuComprarEntrada" target="cuSeleccionarAsiento">
+          <mxGeometry relative="1" as="geometry"/>
+          <mxCell style="edgeLabel;html=1;fontColor=#000000;" value="<<include>>" vertex="0" parent="1"/>
+        </mxCell>
+
+        <!-- Extend relaciones -->
+        <mxCell id="extend1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;strokeColor=#000000;" edge="1" parent="1" source="cuVerCaptcha" target="cuComprarEntrada">
+          <mxGeometry relative="1" as="geometry"/>
+          <mxCell style="edgeLabel;html=1;fontColor=#000000;" value="<<extend>>" vertex="0" parent="1"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
