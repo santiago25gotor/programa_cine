@@ -119,18 +119,17 @@ def proceso_reserva(dbFilms):
                 pelicula=pelicula_seleccionada['titulo'],
             )
             
-            # CREAR Y GUARDAR EL TICKET
+            # 22/10/2025 - CREAR Y GUARDAR EL TICKET
             ticket = crear_ticket(
                 idUser = nombre_usuario,
                 pelicula = pelicula_seleccionada['titulo'],
                 sala = sala_info['salaId'],
                 asientos = codigos_asientos,
                 horario = sala_info['horario'],
-                precio_unitario = precio_final,
+                precio_unitario = sala_info['precio'],
                 cantidad_asientos = cantidad_asientos,
-                descuento = descuento_aplicado
+                descuento = descuento_aplicado  # descuento aplicado
             )
-            
             #24/10/25 - Guardar todo en el JSON (incluyendo funciones)
             guardar_funciones_json(dbFilms)
             guardar_reserva_json(reserva, dbFilms)
