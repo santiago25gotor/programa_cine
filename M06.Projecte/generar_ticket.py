@@ -1,3 +1,9 @@
+## tutorial de como instalar el reportlab y qrcode
+### pasar a python versión 10
+# pip install qrcode[pil] y pip install reportlab
+
+
+
 from reportlab.lib.pagesizes import A6
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
