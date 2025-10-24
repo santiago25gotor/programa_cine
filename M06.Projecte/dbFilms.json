@@ -1,5 +1,5 @@
 {
-  "peliculas": [
+ "peliculas": [
     {
       "id": 101,
       "titulo": "Matrix",
@@ -214,7 +214,7 @@
           0
         ],
         [
-          0,
+          1,
           1,
           0,
           0,
