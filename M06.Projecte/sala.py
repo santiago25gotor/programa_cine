@@ -294,13 +294,20 @@ def codigo_asiento(fila, columna):
     return f"{filas_letras[fila]}{columna + 1}"
 
 
-def marcar_asiento_ocupado(sala: dict, fila: int, columna: int) -> bool:
+def marcar_asientos_ocupados(sala: dict, asientos: List[Tuple[int, int]]) -> bool:
     try:
-        if sala['asientos'][fila][columna] == 0:
+        for fila, columna in asientos:
+            if sala['asientos'][fila][columna] != 0:
+                return False 
+
+        # 2. Marcar todos los asientos
+        for fila, columna in asientos:
             sala['asientos'][fila][columna] = 1
-            return True
-        return False
+            
+        return True 
+        
     except (IndexError, KeyError):
+        print("❌ Error: Índice de asiento fuera de rango o clave incorrecta.")
         return False
     
     #22/10/25 - Función corregida para guardar solo salas y mantener el resto del JSON intacto
