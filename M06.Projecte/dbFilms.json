@@ -191,14 +191,48 @@
         [
           1,
           1,
-          0,
-          0
+          1,
+          1
         ],
         [
           1,
           1,
           1,
           1
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Sala 3 (Estandar Plus)",
+      "asientos": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0
         ]
       ]
     }
@@ -355,6 +389,42 @@
       "sala": 1,
       "asiento": "A4",
       "pelicula": "Inception",
+      "formato": "4K"
+    },
+    {
+      "id": "C434",
+      "idUser": "jjj",
+      "timeStamp": "2025-10-23 19:24:44",
+      "sala": 2,
+      "asiento": "B4",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "V786",
+      "idUser": "sexo",
+      "timeStamp": "2025-10-23 19:25:03",
+      "sala": 2,
+      "asiento": "B3",
+      "pelicula": "La La Land",
+      "formato": "4K"
+    },
+    {
+      "id": "Z121",
+      "idUser": "to",
+      "timeStamp": "2025-10-23 19:36:02",
+      "sala": 3,
+      "asiento": "B2, D3, C4",
+      "pelicula": "Interstellar",
+      "formato": "4K"
+    },
+    {
+      "id": "O343",
+      "idUser": "hhh",
+      "timeStamp": "2025-10-23 19:41:25",
+      "sala": 3,
+      "asiento": "D1, D2",
+      "pelicula": "Interstellar",
       "formato": "4K"
     }
   ],
@@ -762,6 +832,101 @@
         }
       ],
       "precioTotal": 7.6,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "P576",
+      "idUser": "jjj",
+      "timeStamp": "2025-10-23 19:24:44",
+      "pelicula": "Cars",
+      "sala": 2,
+      "asientos": [
+        "B4"
+      ],
+      "horario": "17:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 4.75
+        }
+      ],
+      "precioTotal": 2.38,
+      "descuento": "50%",
+      "tipoDescuento": "+65"
+    },
+    {
+      "id": "Q989",
+      "idUser": "sexo",
+      "timeStamp": "2025-10-23 19:25:03",
+      "pelicula": "La La Land",
+      "sala": 2,
+      "asientos": [
+        "B3"
+      ],
+      "horario": "16:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 4.45
+        }
+      ],
+      "precioTotal": 2.23,
+      "descuento": "50%",
+      "tipoDescuento": "+65"
+    },
+    {
+      "id": "I151",
+      "idUser": "to",
+      "timeStamp": "2025-10-23 19:36:02",
+      "pelicula": "Interstellar",
+      "sala": 3,
+      "asientos": [
+        "B2",
+        "D3",
+        "C4"
+      ],
+      "horario": "18:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 5.5
+        },
+        {
+          "idEntrada": 2,
+          "precio": 5.5
+        },
+        {
+          "idEntrada": 3,
+          "precio": 5.5
+        }
+      ],
+      "precioTotal": 8.25,
+      "descuento": "50%",
+      "tipoDescuento": "+65"
+    },
+    {
+      "id": "U849",
+      "idUser": "hhh",
+      "timeStamp": "2025-10-23 19:41:25",
+      "pelicula": "Interstellar",
+      "sala": 3,
+      "asientos": [
+        "D1",
+        "D2"
+      ],
+      "horario": "18:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 8.8
+        },
+        {
+          "idEntrada": 2,
+          "precio": 8.8
+        }
+      ],
+      "precioTotal": 14.08,
       "descuento": "20%",
       "tipoDescuento": "joven"
     }
