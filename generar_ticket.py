@@ -7,7 +7,7 @@ from datetime import datetime
 import qrcode
 import io
 
-def generar_ticket(reserva, pelicula, descuento=None):
+def generar_ticket(reserva, descuento):
     """
     Genera un PDF profesional con QR para la reserva de cine.
     """
@@ -15,10 +15,10 @@ def generar_ticket(reserva, pelicula, descuento=None):
     qr_data = (
         f"Reserva ID: {reserva['id']}\n"
         f"Usuario: {reserva['idUser']}\n"
-        f"Película: {reserva['pelicula']}\n"
+        f"Hora: {reserva['timeStamp']}\n"
         f"Sala: {reserva['sala']}\n"
         f"Asiento: {reserva['asiento']}\n"
-        f"Hora: {reserva['timeStamp']}\n"
+        f"Película: {reserva['pelicula']}\n"
         f"Formato: {reserva['formato']}"
     )
     qr_img = qrcode.make(qr_data)
@@ -43,7 +43,7 @@ def generar_ticket(reserva, pelicula, descuento=None):
     # --- Encabezado ---
     c.setFillColor(colors.HexColor("#1E1E1E"))
     c.setFont("Helvetica-Bold", 16)
-    c.drawCentredString(52.5*mm, 135*mm, "CINE TICKET")
+    c.drawCentredString(52.5*mm, 135*mm, "CINE CAPRI")
 
     c.setFont("Helvetica", 10)
     c.setFillColor(colors.HexColor("#555555"))
@@ -61,8 +61,9 @@ def generar_ticket(reserva, pelicula, descuento=None):
     c.setFont("Helvetica", 9)
     c.setFillColor(colors.HexColor("#333333"))
     c.drawString(10*mm, 105*mm, f"Sala: {reserva['sala']}    Asiento: {reserva['asiento']}")
-    c.drawString(10*mm, 96*mm, f"Formato: {reserva['formato']}")
+    c.drawString(10*mm, 96*mm, f"Codigo: {reserva['id']}")
     c.drawString(10*mm, 87*mm, f"Fecha/Hora: {reserva['timeStamp']}")
+    c.drawString(10*mm, 78*mm, f"Formato: {reserva['formato']}")
 
     # --- Descuento (si existe) ---
     if descuento:
