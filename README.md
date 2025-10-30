@@ -283,4 +283,3 @@ pip install reportlab qrcode[pil]
 
 ⭐ Si este proyecto te fue útil, considera darle una estrella en GitHub
 
-📧 Para consultas o sugerencias: tu-email@ejemplo.com
