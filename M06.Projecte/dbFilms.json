@@ -548,6 +548,33 @@
       "asiento": "A2",
       "pelicula": "IA",
       "formato": "4K"
+    },
+    {
+      "id": "Y277",
+      "idUser": "paco sanz",
+      "timeStamp": "2025-10-24 18:50:27",
+      "sala": 1,
+      "asiento": "B1, B2, B3, B4",
+      "pelicula": "Cars",
+      "formato": "4K"
+    },
+    {
+      "id": "N318",
+      "idUser": "Paquita salas",
+      "timeStamp": "2025-10-24 18:57:28",
+      "sala": 4,
+      "asiento": "C1, C2",
+      "pelicula": "Buscando a Nemo",
+      "formato": "4K"
+    },
+    {
+      "id": "M872",
+      "idUser": "Rosalia",
+      "timeStamp": "2025-10-24 19:48:09",
+      "sala": 4,
+      "asiento": "C3, C4, B1",
+      "pelicula": "Buscando a Nemo",
+      "formato": "4K"
     }
   ],
   "ticket": [
@@ -1306,6 +1333,96 @@
       "precioTotal": 6.72,
       "descuento": "20%",
       "tipoDescuento": "joven"
+    },
+    {
+      "id": "K563",
+      "idUser": "paco sanz",
+      "timeStamp": "2025-10-24 18:50:27",
+      "pelicula": "Cars",
+      "sala": 1,
+      "asientos": [
+        "B1",
+        "B2",
+        "B3",
+        "B4"
+      ],
+      "horario": "14:00",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 7.6000000000000005
+        },
+        {
+          "idEntrada": 2,
+          "precio": 7.6000000000000005
+        },
+        {
+          "idEntrada": 3,
+          "precio": 7.6000000000000005
+        },
+        {
+          "idEntrada": 4,
+          "precio": 7.6000000000000005
+        }
+      ],
+      "precioTotal": 24.32,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "W566",
+      "idUser": "Paquita salas",
+      "timeStamp": "2025-10-24 18:57:28",
+      "pelicula": "Buscando a Nemo",
+      "sala": 4,
+      "asientos": [
+        "C1",
+        "C2"
+      ],
+      "horario": "14:30",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 6.4
+        },
+        {
+          "idEntrada": 2,
+          "precio": 6.4
+        }
+      ],
+      "precioTotal": 10.24,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
+    },
+    {
+      "id": "W109",
+      "idUser": "Rosalia",
+      "timeStamp": "2025-10-24 19:48:09",
+      "pelicula": "Buscando a Nemo",
+      "sala": 4,
+      "asientos": [
+        "C3",
+        "C4",
+        "B1"
+      ],
+      "horario": "14:30",
+      "precio": [
+        {
+          "idEntrada": 1,
+          "precio": 8.0
+        },
+        {
+          "idEntrada": 2,
+          "precio": 8.0
+        },
+        {
+          "idEntrada": 3,
+          "precio": 8.0
+        }
+      ],
+      "precioTotal": 19.2,
+      "descuento": "20%",
+      "tipoDescuento": "joven"
     }
   ],
   "descuentos": [
@@ -1357,10 +1474,10 @@
         0
       ],
       [
-        0,
-        0,
-        0,
-        0
+        1,
+        1,
+        1,
+        1
       ],
       [
         0,
@@ -1527,6 +1644,66 @@
         0,
         0,
         0
+      ]
+    ],
+    "pelicula_103_sala_4_horario_2100": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "pelicula_109_sala_2_horario_1200": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "pelicula_109_sala_4_horario_1430": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        1
       ]
     ]
   }

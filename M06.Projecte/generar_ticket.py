@@ -75,7 +75,7 @@ def generar_ticket(reserva, descuento):
     if descuento:
         c.setFillColor(colors.HexColor("#E63946"))
         c.setFont("Helvetica-Bold", 9)
-        c.drawString(10*mm, 77*mm, f"Descuento aplicado: {descuento['name']} ({descuento['descount']}%)")
+        c.drawString(10*mm, 69*mm, f"Descuento aplicado: {descuento['name']} ({descuento['descount']}%)")
 
     # --- QR ---
     c.drawImage(qr_reader, 60*mm, 20*mm, width=35*mm, height=35*mm, mask='auto')
