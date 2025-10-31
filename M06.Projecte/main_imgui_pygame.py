@@ -1,20 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-INSTRUCCIONES DE INSTALACIÓN:
+# comandos para el import del pygame
+# -m pip install --upgrade pip y -m pip install pygame imgui[pygame] PyOpenGL
+# cambiar la version de python a la 10.10
 
-Opción 1 - Instalar Build Tools (más completo):
-1. Descargar: https://visualstudio.microsoft.com/visual-cpp-build-tools/
-2. Instalar "Desarrollo para el escritorio con C++"
-3. pip install imgui[glfw]
-4. pip install PyOpenGL
-
-Opción 2 - Usar Pygame (MÁS FÁCIL para Windows):
-pip install pygame
-pip install imgui[pygame]
-pip install PyOpenGL
-
-Ejecutar: python main_imgui_pygame.py
-"""
 
 import pygame
 import sys
@@ -47,9 +34,11 @@ pygame.init()
 # Configuración de ventana - AUMENTADA MÁS
 ANCHO_VENTANA = 1800
 ALTO_VENTANA = 1000
-screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
-pygame.display.set_caption("Sistema de Reservas de Cine")
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
+ANCHO_VENTANA, ALTO_VENTANA = screen.get_size()
+escala_x = ANCHO_VENTANA / 1280
+escala_y = ALTO_VENTANA / 720
 # Colores
 COLOR_FONDO = (20, 20, 30)
 COLOR_TEXTO = (255, 255, 255)
@@ -348,7 +337,7 @@ def ventana_peliculas_ui(pos_mouse, eventos):
         dibujar_texto(mensaje_sistema, 50, ALTO_VENTANA - 140, font_pequena, COLOR_TITULO)
 
     # Botones en la parte inferior - LADO A LADO
-    btn_volver = Boton(50, ALTO_VENTANA - 90, 400, 65, "🔄 Volver al Menú")
+    btn_volver = Boton(1200, ALTO_VENTANA - 90, 400, 65, "🔙 Volver al Menú")
     btn_volver.actualizar(pos_mouse)
     btn_volver.dibujar(screen)
     botones.append(('volver', btn_volver, None))
